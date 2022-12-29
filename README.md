@@ -60,6 +60,297 @@ A [API GraphQL do GitHub](https://docs.github.com/pt/graphql) será utilizada pa
 
 Para explorar a API GraphQL do GitHub, o _GitHub GraphQL API Explorer_ será utilizado, como uma alternativa que roda no navegador, sem a necessidade de nada mais além de uma conta no GitHub.
 
-Abaixo seguem exemplos de _queries_ com suas devidas explicações.
+### Mão-na-massa
 
-...
+Abaixo seguem exemplos de _queries_ com suas devidas explicações e retornos.
+
+#### _Query_ 1 - Busca o valor do campo `login` a partir da entidade `viewer`
+
+```graphql
+query {
+  viewer {
+    login
+  }
+}
+
+```
+
+##### Retorno da `query` 1
+
+```json
+{
+  "data": {
+    "viewer": {
+      "login": "wlsf82"
+    }
+  }
+}
+
+```
+
+#### _Query_ 2 - Busca os valores `login`, `name` e `url` a partir da entidade `viewer`
+
+```graphql
+query {
+  viewer {
+    login
+    name
+    url
+  }
+}
+
+```
+
+##### Retorno da `query` 2
+
+```json
+{
+  "data": {
+    "viewer": {
+      "login": "wlsf82",
+      "name": "Walmyr",
+      "url": "https://github.com/wlsf82"
+    }
+  }
+}
+
+```
+
+#### _Query_ 3 - Busca os valoers `name` e `url` a partir da entidade `organization`, passando o `login` de tal entidade como parâmetro da `query`
+
+```graphql
+query {
+  organization(login: "facebook") {
+    name
+    url
+  }
+}
+
+```
+
+##### Retorno da `query` 3
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "Meta",
+      "url": "https://github.com/facebook"
+    }
+  }
+}
+
+```
+
+#### _Query_ 4 - Busca os valores `name` e `url` a partir da entidade `organization`, porém, para duas organizações, e portanto, dando alias para cada uma, para evitar conflito de campos
+
+```graphql
+query {
+  facebook: organization(login: "facebook") {
+    name
+    url
+  }
+  cypress: organization(login: "cypress-io") {
+    name
+    url
+  }
+}
+
+```
+
+##### Retorno da `query` 4
+
+```json
+{
+  "data": {
+    "facebook": {
+      "name": "Meta",
+      "url": "https://github.com/facebook"
+    },
+    "cypress": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
+    }
+  }
+}
+
+```
+
+#### _Query_ 5 - Busca os valores `name` e `url` a partir da entidade `organization`, para duas organizações, e portanto, dando alias para cada uma, porém, usando um fragmento, para evitar duplicação de código
+
+```graphql
+query {
+  facebook: organization(login: "facebook") {
+    ...orgSharedFields
+  }
+  cypress: organization(login: "cypress-io") {
+    ...orgSharedFields
+  }
+}
+
+fragment orgSharedFields on Organization{
+  name
+  url
+}
+
+```
+
+##### Retorno da `query` 5
+
+```json
+{
+  "data": {
+    "facebook": {
+      "name": "Meta",
+      "url": "https://github.com/facebook"
+    },
+    "cypress": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
+    }
+  }
+}
+
+```
+
+#### _Query_ 6 - Busca valores em comum a partir da entidade `organization` com o uso de fragmentos, em conjunto com dados específicos para um determinado objeto da `query`
+
+```graphql
+query {
+  facebook: organization(login: "facebook") {
+    ...orgSharedFields
+    login
+  }
+  cypress: organization(login: "cypress-io") {
+    ...orgSharedFields
+  }
+}
+
+fragment orgSharedFields on Organization{
+  name
+  url
+}
+
+```
+
+##### Retorno da `query` 6
+
+```json
+{
+  "data": {
+    "facebook": {
+      "name": "Meta",
+      "url": "https://github.com/facebook",
+      "login": "facebook"
+    },
+    "cypress": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
+    }
+  }
+}
+
+```
+
+#### Query 7 - Busca valores da entidade `organization` onde o parâmetro `login` é obrigatório e passado via uma variável `$org`
+
+```graphql
+query ($org: String!) {
+  organization(login: $org) {
+    name
+    url
+  }
+}
+
+```
+
+##### Definição da variável para a `query` 7
+
+```json
+{
+  "org": "cypress-io"
+}
+
+```
+
+##### Retorno da `query` 7
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
+    }
+  }
+}
+
+```
+
+#### Query 8 - Busca valores da entidade `organization` onde o parâmetro `login` NÃO é obrigatório, a variável `$org` possui um valor _default_, porém, tal variável NÃO está definida
+
+```graphql
+query ($org: String = "cypress-io") {
+  organization(login: $org) {
+    name
+    url
+  }
+}
+
+```
+
+##### Definição da variável para a `query` 8
+
+```json
+{}
+
+```
+
+##### Retorno da `query` 8
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
+    }
+  }
+}
+
+```
+
+#### Query 9 - Busca valores da entidade `organization` onde o parâmetro `login` NÃO é obrigatório, a variável `$org` possui um valor _default_, porém, tal variável está definida com um valor DIFERENTE do valor _default_
+
+```graphql
+query ($org: String = "cypress-io") {
+  organization(login: $org) {
+    name
+    url
+  }
+}
+
+```
+
+##### Definição da variável para a `query` 9
+
+```json
+{
+  "org": "facebook"
+}
+
+```
+
+##### Retorno da `query` 9
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "Meta",
+      "url": "https://github.com/facebook"
+    }
+  }
+}
+
+```
