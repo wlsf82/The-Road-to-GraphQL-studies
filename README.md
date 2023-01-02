@@ -26,7 +26,7 @@ Além disso, visto o maior espaço em tela, mais campos podem ser exibidos, ou s
 
 Já uma aplicação cliente para dispositivos móveis tem que lidar com telas menores, e por exemplo, com uma internet de velocidade lenta (ex.: 3G). Neste caso, há um grande custo em cada requisição feita pela rede.
 
-Neste caso, nem todos os atributos retornados por tais requisições poderão ser exibidos na tela, visto a limitação de seu tamanho. Neste caso, só os atributos mais importantes são exibidos e os outros atributos trafegados pela rede foram um desperdício.
+Além disso, nem todos os atributos retornados por tais requisições poderão ser exibidos na tela, visto a limitação de seu tamanho. Neste caso, só os atributos mais importantes são exibidos e os outros atributos trafegados pela rede foram um desperdício.
 
 Com isso, no mundo REST, para resolver tais situações, APIs específicas por cliente devem ser desenvolvidas  para evitar desperdícios. Porém, isso gera mais código pra ser mantido.
 
@@ -50,7 +50,7 @@ Em GraphQL, entidades possuem campos. Além disso, GraphQL é uma linguagem fort
 
 Diferente de APIs REST, com GraphQL a perspectiva muda, onde as aplicações cliente são quem decide o que querem, em vez do servidor.
 
-No lado do "servidor", o que temos são esquemas GraphQL (_GraphQL Schemas_), os quais podem ser múltiplos (por exemplo, em uma arquitetura de micro-servições), e um esquema consolidado pode ser criado para consumo pela aplicação principal (utilizando o mecanismo de _GraphQL Schema Stitching_).
+No lado do "servidor", o que temos são esquemas GraphQL (_GraphQL Schemas_), os quais podem ser múltiplos (por exemplo, em uma arquitetura de micro-serviços), e um esquema consolidado pode ser criado para consumo pela aplicação principal (utilizando o mecanismo de _GraphQL Schema Stitching_).
 
 ## Exemplos de APIs GraphQL
 
@@ -116,7 +116,7 @@ query {
 
 ```
 
-#### _Query_ 3 - Busca os valoers `name` e `url` a partir da entidade `organization`, passando o `login` de tal entidade como parâmetro da `query`
+#### _Query_ 3 - Busca os valores `name` e `url` a partir da entidade `organization`, passando o `login` de tal entidade como parâmetro da `query`
 
 ```graphql
 query {
