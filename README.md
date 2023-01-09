@@ -431,3 +431,48 @@ query OrganizationForLearningReact($organization: String!) {
 }
 
 ```
+
+#### Query 12 - Busca os valores `name` e `url` a partir da entidade `organization`, e então, a partir da entidade `repository`, busca o valor da propriedade `name`. O nome disso é aninhamento de objetos (_nested objects_). Para ambas entidades (`organization` e `repository`), seu parâmetros obrigatórios (`$organization` e `$repository`) são passados com o uso de variáveis
+
+```graphql
+query OrganizationForLearningReact(
+  $organization: String!,
+  $repository: String!
+) {
+  organization(login: $organization) {
+    name
+    url
+    repository(name: $repository) {
+      name
+    }
+  }
+}
+
+```
+
+##### Definição da variável para a `query` 12
+
+```json
+{
+  "organization": "the-road-to-learn-react",
+  "repository": "the-road-to-learn-react-portuguese"
+}
+
+```
+
+##### Retorno da `query` 12
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "The Road to React",
+      "url": "https://github.com/the-road-to-learn-react",
+      "repository": {
+        "name": "the-road-to-learn-react-portuguese"
+      }
+    }
+  }
+}
+
+```
