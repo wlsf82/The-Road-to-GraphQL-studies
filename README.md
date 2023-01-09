@@ -397,7 +397,7 @@ fragment sharedFields2 on Organization{
 
 ```
 
-#### Query 11 - Busca os valores `name` e `url` a partir da entidade `organization` utilizando uma `query` nomeada. Algo como uma função nomeada em JavaScript, em vez de uma função anônima. Útil para deixra claro o propsósito da _query_ de forma declarativa
+#### Query 11 - Busca os valores `name` e `url` a partir da entidade `organization` utilizando uma `query` nomeada. Algo como uma função nomeada em JavaScript, em vez de uma função anônima. Útil para deixar claro o propsósito da _query_ de forma declarativa
 
 ```graphql
 query OrganizationForLearningReact($organization: String!) {
@@ -432,7 +432,7 @@ query OrganizationForLearningReact($organization: String!) {
 
 ```
 
-#### Query 12 - Busca os valores `name` e `url` a partir da entidade `organization`, e então, a partir da entidade `repository`, busca o valor da propriedade `name`. O nome disso é aninhamento de objetos (_nested objects_). Para ambas entidades (`organization` e `repository`), seu parâmetros obrigatórios (`$organization` e `$repository`) são passados com o uso de variáveis
+#### Query 12 - Busca os valores `name` e `url` a partir da entidade `organization`, e então, a partir da entidade `repository`, busca o valor da propriedade `name`. O nome disso é aninhamento de objetos (_nested objects_). Para ambas entidades (`organization` e `repository`), seus parâmetros obrigatórios (`$organization` e `$repository`) são passados com o uso de variáveis
 
 ```graphql
 query OrganizationForLearningReact(
