@@ -142,7 +142,7 @@ query {
 
 ```
 
-#### _Query_ 4 - Busca os valores `name` e `url` a partir da entidade `organization`, porém, para duas organizações, e portanto, dando alias para cada uma, para evitar conflito de campos
+#### _Query_ 4 - Busca os valores `name` e `url` a partir da entidade `organization`, porém, para duas organizações, portanto, dando alias para cada uma, para evitar conflito de campos
 
 ```graphql
 query {
@@ -176,7 +176,7 @@ query {
 
 ```
 
-#### _Query_ 5 - Busca os valores `name` e `url` a partir da entidade `organization`, para duas organizações, e portanto, dando alias para cada uma, porém, usando um fragmento, para evitar duplicação de código
+#### _Query_ 5 - Busca os valores `name` e `url` a partir da entidade `organization`, para duas organizações, portanto, dando alias para cada uma, porém, usando um fragmento, para evitar duplicação de código
 
 ```graphql
 query {
@@ -349,6 +349,48 @@ query ($org: String = "cypress-io") {
     "organization": {
       "name": "Meta",
       "url": "https://github.com/facebook"
+    }
+  }
+}
+
+```
+
+#### _Query_ 10 - Busca os valores `name` e `url` a partir da entidade `organization`, para duas organizações, portanto, dando alias para cada uma. Além disso, usa dois fragmentos sob a mesma entidade (`Organization`) para evitar duplicação de código e exemplificar o uso de mais de um fragmento na mesma consulta
+
+```graphql
+query {
+  facebook: organization(login: "facebook") {
+    ...sharedFields1
+    ...sharedFields2
+  }
+  cypress: organization(login: "cypress-io") {
+    ...sharedFields1
+    ...sharedFields2
+  }
+}
+
+fragment sharedFields1 on Organization{
+  name
+}
+
+fragment sharedFields2 on Organization{
+  url
+}
+
+```
+
+##### Retorno da `query` 10
+
+```json
+{
+  "data": {
+    "facebook": {
+      "name": "Meta",
+      "url": "https://github.com/facebook"
+    },
+    "cypress": {
+      "name": "Cypress.io",
+      "url": "https://github.com/cypress-io"
     }
   }
 }
