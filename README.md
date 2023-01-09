@@ -396,3 +396,38 @@ fragment sharedFields2 on Organization{
 }
 
 ```
+
+#### Query 11 - Busca os valores `name` e `url` a partir da entidade `organization` utilizando uma `query` nomeada. Algo como uma função nomeada em JavaScript, em vez de uma função anônima. Útil para deixra claro o propsósito da _query_ de forma declarativa
+
+```graphql
+query OrganizationForLearningReact($organization: String!) {
+  organization(login: $organization) {
+    name
+    url
+  }
+}
+
+```
+
+##### Definição da variável para a `query` 11
+
+```json
+{
+  "organization": "the-road-to-learn-react"
+}
+
+```
+
+##### Retorno da `query` 11
+
+```json
+{
+  "data": {
+    "organization": {
+      "name": "The Road to React",
+      "url": "https://github.com/the-road-to-learn-react"
+    }
+  }
+}
+
+```
